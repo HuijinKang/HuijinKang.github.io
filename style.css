@@ -332,6 +332,12 @@ a { color: inherit; }
   color: var(--text-muted);
   white-space: nowrap;
 }
+/* 플랫폼(Android/Web) 구분용 — 카테고리 pill과 달리 아웃라인 스타일 */
+.pill--platform {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--accent);
+}
 
 .card__desc {
   font-size: 12px;

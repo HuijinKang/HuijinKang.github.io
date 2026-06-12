@@ -217,6 +217,9 @@
 
     var titleRow = el("div", "card__title-row");
     titleRow.appendChild(el("h2", "card__name", app.name || "Untitled"));
+    if (app.platform) {
+      titleRow.appendChild(el("span", "pill pill--platform", app.platform));
+    }
     if (app.category) {
       titleRow.appendChild(el("span", "pill", app.category));
     }
