@@ -52,6 +52,19 @@ const apps = [
       { month: "2026-05", value: 0 },
       { month: "2026-06", value: 0 }
     ]
+  },
+  {
+    name: "BB Ballistics Calculator",
+    logo: "./assets/bb-ballistics-web.png",
+    url: "https://airsoft-ballistics.com/",
+    description: "Web version of the airsoft BB velocity, energy & range calculator — no install needed.",
+    category: "Tools",
+    mrr: 0,
+    // 웹 서비스라 downloads 없음 — 헤더 총합/자동 갱신 스크립트 모두 Play Store 앱만 집계
+    status: "live",
+    revenue: [
+      { month: "2026-06", value: 0 }
+    ]
   }
   // 앱이 늘면 여기에 객체를 추가한다.
 ];
