@@ -24,6 +24,8 @@ assets/      avatar (optional) + app icons (downloaded locally, no hotlinking)
 Every month, edit the `mrr` number for each app in `data.js` and push. The header total recalculates automatically.
 Adding an app = append one object to the `apps` array in `data.js`.
 
+**Download counts are automated**: a GitHub Action (`.github/workflows/update-stats.yml`) runs daily at 02:17 UTC, scrapes each app's public Play Store page for its download bucket (e.g. `100+`), and commits the new `downloads` value to `data.js` only when it changed. Package IDs are auto-discovered from the Play Store URLs in `data.js`, so new apps are picked up automatically. Run it manually from the Actions tab (workflow_dispatch) to test.
+
 - `mrr` totals are formatted with `Intl.NumberFormat`; values ≥ 1000 abbreviate to `$1.2k/mo`.
 - `status`: `live` | `acquired` (optional `soldFor`) | `discontinued`.
 - Card order follows the `data.js` array order (no re-sorting).
