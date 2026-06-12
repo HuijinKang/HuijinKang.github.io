@@ -59,7 +59,7 @@ const apps = [
     name: "Airsoft Ballistics",
     logo: "./assets/airsoft-ballistics.png",
     url: "https://airsoft-ballistics.com/",
-    description: "Web version of the airsoft BB velocity, energy & range calculator — no install needed.",
+    description: "Airsoft BB velocity, energy & range calculator — right in your browser, no install needed.",
     category: "Tools",
     platform: "Web",
     mrr: 0,
