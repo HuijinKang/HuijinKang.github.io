@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Huijin Kang — Indie apps & revenue</title>
+  <meta name="description" content="Small, useful apps built in public — with transparent monthly revenue.">
+
+  <!-- FOUC 방지: 테마를 가장 먼저 인라인으로 적용 -->
+  <script>
+    (function () {
+      // 기본은 다크모드. 라이트는 사용자가 직접 토글했을 때만(localStorage) 적용.
+      try {
+        var saved = localStorage.getItem("theme");
+        document.documentElement.setAttribute("data-theme", saved || "dark");
+      } catch (e) {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    })();
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="layout">
+      <header class="header">
+        <!-- 3D 캐릭터 무대 (클릭하면 리액션) -->
+        <div class="robot-stage" id="robot-stage" role="img"
+             aria-label="Interactive 3D robot character. Click to make it react."></div>
+        <div class="profile-info" id="profile-info"></div>
+      </header>
+
+      <main class="apps">
+        <ul class="app-list" id="app-list"></ul>
+      </main>
+    </div>
+  </div>
+
+  <!-- 차트 라이브러리 (CDN, 빌드 불필요) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <script src="./data.js"></script>
+  <script src="./app.js"></script>
+
+  <!-- Three.js (ES 모듈 CDN, 빌드 불필요) -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+  <script type="module" src="./profile3d.js"></script>
+</body>
+</html>
