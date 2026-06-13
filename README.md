@@ -14,8 +14,17 @@ index.html   skeleton (header / app-list / footer containers) + inline anti-FOUC
 style.css    design tokens (light/dark) + all styles
 data.js      ← edit ONLY this file to maintain (profile + apps). Exposes `profile`, `apps` globals
 app.js       reads data.js → renders DOM, sums total MRR, handles dark-mode toggle
+games.html   retro (PS1/GBA) game picker — 2-col: detail panel (left) + title list (right)
+games.js     ← edit ONLY this file to maintain games. Exposes `games` global
+games.app.js reads games.js → renders detail panel + title list, keyboard/click nav
+games.css    retro theme (pixel fonts, CRT scanlines, beveled panels)
 assets/      avatar (optional) + app icons (downloaded locally, no hotlinking)
 ```
+
+The home page links to `games.html` via a "Games" card — an `apps` entry in `data.js` with `internal: true`
+(internal link, opens same-tab, no status badge). Card order follows the `apps` array order.
+The game picker: left column shows the selected game's cover/screenshots/genre/description; the right
+column is a plain title list. Moving through the list (click, hover, or ▲▼/Enter keys) updates the left panel.
 
 `data.js` loads first, `app.js` second. Rendering code never touches the data.
 

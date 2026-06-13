@@ -14,7 +14,36 @@ const profile = {
   ]
 };
 
+// 카드는 이 배열 순서대로 노출된다. 순서를 바꾸려면 객체 위치만 옮기면 된다.
 const apps = [
+  {
+    name: "Airsoft Ballistics",
+    logo: "./assets/airsoft-ballistics.png",
+    url: "https://airsoft-ballistics.com/",
+    description: "Airsoft BB velocity, energy & range calculator — right in your browser, no install needed.",
+    category: "Tools",
+    platform: "Web",
+    mrr: 0,
+    // 웹 서비스라 downloads 없음 — 헤더 총합/자동 갱신 스크립트 모두 Play Store 앱만 집계
+    status: "live",
+    revenue: [
+      { month: "2026-06", value: 0 }
+    ]
+  },
+  {
+    // 내부 페이지 카드 — 스토어 앱이 아니라 사이트 내부 게임 페이지로 이동(같은 탭).
+    // internal: true → 새 탭 안 열고, 상태(Live) 배지 생략. 그 외엔 앱 카드와 동일.
+    name: "Games",
+    url: "./games.html",
+    internal: true,
+    logo: "./assets/games-logo.png",
+    description: "Meet the games I'm building.",
+    category: "Collection",
+    mrr: 0,
+    revenue: [
+      { month: "2026-06", value: 0 }
+    ]
+  },
   {
     name: "BB Ballistics Calculator",
     logo: "./assets/bb-ballistics.png",
@@ -52,20 +81,6 @@ const apps = [
       { month: "2026-03", value: 0 },
       { month: "2026-04", value: 0 },
       { month: "2026-05", value: 0 },
-      { month: "2026-06", value: 0 }
-    ]
-  },
-  {
-    name: "Airsoft Ballistics",
-    logo: "./assets/airsoft-ballistics.png",
-    url: "https://airsoft-ballistics.com/",
-    description: "Airsoft BB velocity, energy & range calculator — right in your browser, no install needed.",
-    category: "Tools",
-    platform: "Web",
-    mrr: 0,
-    // 웹 서비스라 downloads 없음 — 헤더 총합/자동 갱신 스크립트 모두 Play Store 앱만 집계
-    status: "live",
-    revenue: [
       { month: "2026-06", value: 0 }
     ]
   }

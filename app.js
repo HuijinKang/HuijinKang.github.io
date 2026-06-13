@@ -193,12 +193,15 @@
     if (app.status === "discontinued") card.className += " card--discontinued";
     if (app.url) {
       card.href = app.url;
-      card.target = "_blank";
-      card.rel = "noopener";
+      if (!app.internal) {          // 내부 페이지는 같은 탭에서 이동
+        card.target = "_blank";
+        card.rel = "noopener";
+      }
     } else {
       card.href = "#";
     }
-    card.setAttribute("aria-label", (app.name || "App") + " — opens in a new tab");
+    card.setAttribute("aria-label",
+      (app.name || "App") + (app.internal ? " — open page" : " — opens in a new tab"));
 
     // 상단 행: 로고 · 본문 · 수익 배지
     var main = el("div", "card__main");
@@ -229,7 +232,7 @@
       body.appendChild(el("p", "card__desc", app.description));
     }
 
-    body.appendChild(buildStatus(app));
+    if (!app.internal) body.appendChild(buildStatus(app));  // 내부 페이지 카드는 상태 배지 생략
     main.appendChild(body);
 
     // 수익 배지

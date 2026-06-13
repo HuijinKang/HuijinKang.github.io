@@ -260,12 +260,33 @@ a { color: inherit; }
    ============================================================ */
 .app-list {
   list-style: none;
-  padding: 0;
   margin: 0;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  /* 약 4개 카드 높이까지만 보이고, 나머지는 내부 스크롤. 값만 조절하면 보이는 개수 변경 */
+  max-height: 920px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* 위/아래 여백을 둬서 카드가 항상 여백 안쪽에 오게 함 (페이드가 카드를 가리지 않음) */
+  padding: 24px 8px 24px 0;
+  /* 페이드는 빈 여백(24px)에만 걸리고, 카드(시작 24px)는 또렷하게 — 부드러운 스크롤 암시 */
+  -webkit-mask-image: linear-gradient(to bottom,
+    transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
+  mask-image: linear-gradient(to bottom,
+    transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
+  /* Firefox: 얇고 톤에 맞는 스크롤바 */
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
 }
+/* WebKit(Chrome/Safari): 얇고 투명한 트랙 + 둥근 썸 */
+.app-list::-webkit-scrollbar { width: 6px; }
+.app-list::-webkit-scrollbar-track { background: transparent; }
+.app-list::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 999px;
+}
+.app-list::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
 .card {
   display: flex;
@@ -437,6 +458,11 @@ a { color: inherit; }
     max-width: 440px;
   }
   .apps { max-width: 560px; margin: 0 auto; width: 100%; }
+  /* 모바일: 내부 스크롤 대신 페이지 스크롤로 전체 카드 노출 (마스크/스크롤바 해제) */
+  .app-list {
+    max-height: none; overflow: visible; padding-right: 0;
+    -webkit-mask-image: none; mask-image: none;
+  }
 }
 
 @media (max-width: 480px) {

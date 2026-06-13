@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Arcade — Huijin Kang</title>
+  <meta name="description" content="A retro PS1/GBA-style picker for my games.">
+
+  <link rel="icon" type="image/png" href="./assets/favicon.png">
+  <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
+
+  <!-- 픽셀 폰트: 제목/리스트는 Press Start 2P, 본문은 VT323(가독성 좋은 터미널체) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./games.css?v=5">
+</head>
+<body>
+  <!-- CRT 스캔라인 오버레이 -->
+  <div class="crt-overlay" aria-hidden="true"></div>
+
+  <div class="arcade">
+    <header class="arcade__top">
+      <a class="back" href="./index.html">◄ BACK</a>
+      <h1 class="arcade__title">GAME&nbsp;SELECT</h1>
+      <span class="arcade__hint">▲▼ / CLICK</span>
+    </header>
+
+    <div class="arcade__grid">
+      <!-- 좌: 선택된 게임의 상세(대표화면·스크린샷·장르·설명·제목) -->
+      <section class="detail" id="detail" aria-live="polite"></section>
+
+      <!-- 우: 게임 제목 리스트. 이동하면 좌측 상세가 갱신된다 -->
+      <nav class="menu" aria-label="Game list">
+        <ul class="menu__list" id="game-list"></ul>
+      </nav>
+    </div>
+  </div>
+
+  <!-- 데이터 먼저, 렌더러 다음 (data.js → app.js 와 동일 패턴) -->
+  <script src="./games.js?v=5"></script>
+  <script src="./games.app.js?v=5"></script>
+</body>
+</html>
