@@ -30,6 +30,9 @@ body {
   font-size: 20px;
   line-height: 1.4;
   padding: 22px;
+  /* 아케이드 캐비닛 전체를 뷰포트 세로 중앙에 (길면 margin auto가 스크롤 허용) */
+  display: flex;
+  min-height: 100vh;
 }
 
 img { image-rendering: pixelated; }
@@ -58,8 +61,9 @@ img { image-rendering: pixelated; }
 /* 아케이드 캐비닛 본체 — 빈 사이드 여백을 게임기 프레임으로 채운다 */
 .arcade {
   position: relative;
+  width: 100%;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: auto;  /* flex 컨테이너 안에서 가로·세로 중앙 정렬 */
   padding: 26px 30px 32px;
   background: linear-gradient(180deg, #161618 0%, #0b0b0d 100%);
   border: 3px solid #000;
@@ -93,7 +97,7 @@ img { image-rendering: pixelated; }
   display: grid;
   grid-template-columns: 1.3fr 1fr;  /* 좌: 상세  ·  우: 타이틀 리스트 */
   gap: 22px;
-  align-items: start;
+  align-items: stretch;  /* 두 박스를 같은 높이로 — 짧은 리스트 박스가 위에만 붙는 비대칭 방지 */
   margin-top: 80px;  /* 헤더와 본문 사이 숨 쉬는 공간 */
 }
 
