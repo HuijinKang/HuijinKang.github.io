@@ -49,8 +49,8 @@
       btn.appendChild(el("span", "menu__name", g && g.title ? g.title : "UNTITLED"));
 
       btn.addEventListener("click", function () { select(i); });
-      // 호버해도 미리보기되도록(아케이드 셀렉트 느낌). 키보드와 자연스럽게 공존.
-      btn.addEventListener("mouseenter", function () { select(i); });
+      // 호버 자동선택은 제거: 상세 패널 높이 변화 → 세로 중앙 재정렬 → 리스트 이동 →
+      // 커서가 다른 항목 위로 → 재호버 … 의 떨림(피드백 루프)을 유발했음. 선택은 클릭/방향키로.
 
       li.appendChild(btn);
       list.appendChild(li);
