@@ -3,7 +3,7 @@
 
 const profile = {
   name: "Huijin Kang",
-  tagline: "Building small but useful apps.", // 한 줄 소개 (자유롭게 수정 가능)
+  tagline: "My goal is to earn back my Claude Code monthly subscription.", // 한 줄 소개 (자유롭게 수정 가능)
   location: "South Korea",        // 선택. 비우면 미표시
   avatar: "./assets/avatar.png",  // 선택. 비우면 이니셜 모노그램(HK) 자동 생성
   currency: "USD",                // 수익 표기 통화
@@ -36,7 +36,7 @@ const apps = [
     name: "Games",
     url: "./games.html",
     internal: true,
-    logo: "./assets/games-logo.png",
+    logo: "./assets/games-logo.png?v=3",
     description: "Meet the games I'm building.",
     category: "Collection",
     mrr: 0,

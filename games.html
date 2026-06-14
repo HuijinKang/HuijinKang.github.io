@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="./games.css?v=8">
+  <link rel="stylesheet" href="./games.css?v=14">
 </head>
 <body>
   <!-- CRT 스캔라인 오버레이 -->
@@ -27,15 +27,52 @@
       <span class="arcade__hint">▲▼ / CLICK</span>
     </header>
 
+    <!-- PlayStation 시그니처 4색 그라데이션 구분선 -->
+    <div class="ps-rule" aria-hidden="true"></div>
+
     <div class="arcade__grid">
       <!-- 좌: 선택된 게임의 상세(대표화면·스크린샷·장르·설명·제목) -->
       <section class="detail" id="detail" aria-live="polite"></section>
 
       <!-- 우: 게임 제목 리스트. 이동하면 좌측 상세가 갱신된다 -->
       <nav class="menu" aria-label="Game list">
+        <!-- PS1 전면 메모리카드 슬롯 모티프 -->
+        <div class="memcard" aria-hidden="true">
+          <span class="memcard__label">MEMORY CARD</span>
+          <span class="memcard__slots">
+            <span class="memcard__slot"><span class="memcard__pins"></span><b>1</b></span>
+            <span class="memcard__slot"><span class="memcard__pins"></span><b>2</b></span>
+          </span>
+        </div>
         <ul class="menu__list" id="game-list"></ul>
+
+        <!-- PS1 전면 컨트롤러 포트 모티프 -->
+        <div class="ports" aria-hidden="true">
+          <span class="memcard__label">CONTROLLER</span>
+          <span class="ports__row">
+            <span class="port"></span>
+            <span class="port"></span>
+          </span>
+        </div>
       </nav>
     </div>
+
+    <!-- 하단 상태바: POWER LED + PS 페이스 버튼 글리프 -->
+    <footer class="arcade__foot">
+      <span class="ctrlbtn ctrlbtn--power">
+        <span class="led" aria-hidden="true"></span>POWER
+      </span>
+      <span class="ctrlbtn ctrlbtn--open">⏏ OPEN</span>
+      <span class="ctrlbtn ctrlbtn--reset">⟲ RESET</span>
+      <span class="foot-spacer"></span>
+      <span class="foot-label foot-label--mute">SCPH-1000</span>
+      <span class="ps-shapes" aria-hidden="true">
+        <span class="ps-shape ps-tri">△</span>
+        <span class="ps-shape ps-cir">○</span>
+        <span class="ps-shape ps-x">✕</span>
+        <span class="ps-shape ps-sq">□</span>
+      </span>
+    </footer>
   </div>
 
   <!-- 데이터 먼저, 렌더러 다음 (data.js → app.js 와 동일 패턴) -->

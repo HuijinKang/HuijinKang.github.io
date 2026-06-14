@@ -1,18 +1,31 @@
 /* ============================================================
-   games.css — 고전 게임(PS1 / GBA) 분위기의 게임 셀렉트 화면
-   빌드 불필요. 픽셀 폰트 + CRT 스캔라인 + 베벨 패널.
+   games.css — Sony PlayStation(SCPH-1000/5001) 콘솔 색감의 게임 셀렉트
+   따뜻한 회색 플라스틱 본체 + PS 시그니처 버튼 컬러 + CRT 디스플레이.
+   빌드 불필요. 픽셀 폰트(Press Start 2P) + 터미널체(VT323).
    ============================================================ */
 :root {
-  --bg:        #0a0a0b;   /* 흑색 베이스 */
-  --bg2:       #000000;
-  --panel:     #141416;   /* 중성 다크 그레이 패널 */
-  --panel-2:   #0b0b0d;
-  --edge:      #2b2b30;   /* 패널 외곽선 (중성 그레이) */
-  --ink:       #efeef2;
-  --dim:       #9a99a3;   /* 중성 쿨 그레이 */
-  --accent:    #36f1cd;   /* 인광 청록 */
-  --accent2:   #ff5fa2;   /* 마젠타 */
-  --gold:      #ffd166;
+  /* ---- PS1 플라스틱 그레이 팔레트 ---- */
+  --plastic:     #c8c4bb;   /* 본체 라이트 그레이 (따뜻한 회색) */
+  --plastic-hi:  #ddd9d0;   /* 윗면 하이라이트 */
+  --plastic-lo:  #a8a49b;   /* 음영진 플라스틱 */
+  --plastic-deep:#8c887f;   /* 깊은 음영 / 새겨진 홈 */
+  --edge:        #b6b2a8;   /* 패널 외곽선 */
+  --groove:      #9c988f;   /* 베벨 홈 라인 */
+
+  --ink:         #3c3a35;   /* 본문 진한 잉크(각인 느낌) */
+  --engrave:     #6f6b63;   /* 각인 라벨 그레이 */
+  --dim:         #7d7970;   /* 흐린 라벨 */
+
+  /* ---- PlayStation 시그니처 버튼 컬러 ---- */
+  --ps-blue:   #4f9bd4;   /* ✕ 크로스(시안블루) — 메인 액센트 */
+  --ps-red:    #d24d5e;   /* ○ 서클 */
+  --ps-pink:   #c96fa0;   /* □ 스퀘어 */
+  --ps-green:  #4fa893;   /* △ 트라이앵글 */
+  --power:     #5fae4e;   /* POWER 각인 그린 */
+
+  /* ---- CRT 디스플레이(스크린) ---- */
+  --crt-bg:    #06060c;
+  --crt-glow:  #57e0c8;
 
   --pixel: "Press Start 2P", system-ui, sans-serif;
   --term:  "VT323", "Courier New", monospace;
@@ -23,143 +36,169 @@
 html, body { margin: 0; min-height: 100%; }
 
 body {
-  background:
-    radial-gradient(120% 80% at 50% -10%, #1a1a1d 0%, var(--bg) 55%, var(--bg2) 100%) fixed;
+  background: #1B1B1B;
   color: var(--ink);
   font-family: var(--term);
   font-size: 20px;
   line-height: 1.4;
   padding: 22px;
-  /* 아케이드 캐비닛 전체를 뷰포트 세로 중앙에 (길면 margin auto가 스크롤 허용) */
   display: flex;
   min-height: 100vh;
 }
 
 img { image-rendering: pixelated; }
 
-/* ---- CRT 스캔라인 + 비네트 오버레이 ---- */
+/* ---- 아주 옅은 룸 비네트(분위기만) ---- */
 .crt-overlay {
   position: fixed; inset: 0; pointer-events: none; z-index: 9999;
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(0,0,0,0)    0px,
-    rgba(0,0,0,0)    2px,
-    rgba(0,0,0,0.22) 2px,
-    rgba(0,0,0,0.22) 4px
-  );
-  animation: flicker 5s steps(60) infinite;
 }
 .crt-overlay::after {
   content: ""; position: absolute; inset: 0;
-  box-shadow: inset 0 0 170px 50px rgba(0,0,0,0.75);
+  box-shadow: inset 0 0 220px 60px rgba(0,0,0,0.35);
 }
-@keyframes flicker { 0%,100% { opacity: .85; } 50% { opacity: .96; } }
 
 /* ============================================================
-   레이아웃
+   콘솔 본체 (PS1 플라스틱)
    ============================================================ */
-/* 아케이드 캐비닛 본체 — 빈 사이드 여백을 게임기 프레임으로 채운다 */
 .arcade {
   position: relative;
   width: 100%;
   max-width: 1200px;
-  margin: auto;  /* flex 컨테이너 안에서 가로·세로 중앙 정렬 */
+  margin: auto;
   padding: 26px 30px 32px;
-  background: linear-gradient(180deg, #161618 0%, #0b0b0d 100%);
-  border: 3px solid #000;
-  border-radius: 16px;
+  /* 위에서 빛 받는 회색 플라스틱 그라데이션 */
+  background: linear-gradient(180deg, var(--plastic-hi) 0%, var(--plastic) 42%, var(--plastic-lo) 100%);
+  border: 1px solid var(--plastic-deep);
+  border-radius: 18px;
   box-shadow:
-    inset 0 0 0 2px var(--edge),
-    inset 0 0 0 6px #000,
-    inset 0 3px 0 rgba(255,255,255,.05),
-    0 18px 44px rgba(0,0,0,.6),
-    0 0 56px rgba(54,241,205,.07);
+    inset 0 2px 0 rgba(255,255,255,.55),     /* 윗면 하이라이트 */
+    inset 0 -3px 0 rgba(0,0,0,.18),          /* 아랫면 음영 */
+    inset 0 0 0 6px rgba(255,255,255,.06),
+    0 22px 50px rgba(0,0,0,.45),
+    0 2px 0 rgba(255,255,255,.2);
 }
 
+/* 우측 방열핀(콘솔 옆면) 느낌의 결 — 장식 */
+.arcade::after {
+  content: ""; position: absolute; top: 18px; bottom: 18px; right: 9px; width: 10px;
+  border-radius: 4px;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0,0,0,.10) 0 3px,
+    rgba(255,255,255,.18) 3px 6px
+  );
+  opacity: .5; pointer-events: none;
+}
 
 .arcade__top {
   display: flex; align-items: center; gap: 16px;
-  margin-bottom: 22px; flex-wrap: wrap;
+  margin-bottom: 14px; flex-wrap: wrap;
+}
+
+/* PlayStation 로고 4색 그라데이션 구분선 (빨·노·초·파) */
+.ps-rule {
+  height: 3px; margin: 0 2px; border-radius: 3px;
+  background: linear-gradient(90deg,
+    #e23b3b 0 25%, #f2b134 25% 50%, #44a85a 50% 75%, #3f7fd0 75% 100%);
+  opacity: .55;
+  box-shadow: 0 1px 0 rgba(255,255,255,.45);
 }
 .arcade__title {
   flex: 1 1 auto; margin: 0; text-align: center;
   font-family: var(--pixel); font-size: 18px; letter-spacing: 1px;
-  color: var(--accent);
-  text-shadow: 0 0 10px rgba(54,241,205,.45), 2px 2px 0 #000;
+  /* 플라스틱에 각인된 듯한 음각 텍스트 */
+  color: var(--engrave);
+  text-shadow: 0 1px 0 rgba(255,255,255,.7), 0 -1px 0 rgba(0,0,0,.25);
 }
 .back, .arcade__hint {
   font-family: var(--pixel); font-size: 9px; letter-spacing: 1px;
   color: var(--dim); text-decoration: none; white-space: nowrap;
+  text-shadow: 0 1px 0 rgba(255,255,255,.6);
 }
-.back:hover { color: var(--accent); }
+.back:hover { color: var(--ps-blue); }
 
 .arcade__grid {
   display: grid;
-  grid-template-columns: 1.3fr 1fr;  /* 좌: 상세  ·  우: 타이틀 리스트 */
+  grid-template-columns: 1.3fr 1fr;
   gap: 22px;
-  align-items: stretch;  /* 두 박스를 같은 높이로 — 짧은 리스트 박스가 위에만 붙는 비대칭 방지 */
-  margin-top: 80px;  /* 헤더와 본문 사이 숨 쉬는 공간 */
+  align-items: stretch;
+  margin-top: 40px;
 }
 
-/* ---- 패널 공통(베벨 + 인광 글로우) ---- */
+/* ---- 패널 공통: 본체에 박힌 음각 플라스틱 트레이 ---- */
 .detail, .menu {
-  background: linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
-  border: 2px solid var(--edge);
-  border-radius: 4px;
+  background: linear-gradient(180deg, #bfbbb2 0%, #cac6bd 100%);
+  border: 1px solid var(--groove);
+  border-radius: 10px;
   box-shadow:
-    inset 0 0 0 2px #000,
-    inset 2px 2px 0 rgba(255,255,255,.06),
-    0 8px 0 rgba(0,0,0,.45),
-    0 0 26px rgba(54,241,205,.08);
+    inset 0 2px 5px rgba(0,0,0,.22),         /* 안쪽으로 파인 음각 */
+    inset 0 -1px 0 rgba(255,255,255,.5),
+    0 1px 0 rgba(255,255,255,.4);
   padding: 16px;
 }
 
 /* ============================================================
-   좌측: 상세 패널
+   좌측: 상세 패널 — CRT 디스플레이
    ============================================================ */
 .screen {
   position: relative;
   aspect-ratio: 16 / 10;
-  background: #05040f;
-  border: 2px solid #000;
-  border-radius: 3px;
+  background: var(--crt-bg);
+  border: 2px solid #2a2a30;
+  border-radius: 8px;
   overflow: hidden;
   display: flex; align-items: center; justify-content: center;
-  box-shadow: inset 0 0 32px rgba(0,0,0,.85), inset 0 0 0 1px rgba(54,241,205,.15);
+  /* 디스플레이는 본체에 박혀 있으므로 진한 음각 + 약한 인광 */
+  box-shadow:
+    inset 0 0 0 3px #1c1c20,
+    inset 0 0 30px rgba(0,0,0,.85),
+    inset 0 0 0 4px rgba(87,224,200,.12),
+    0 0 0 1px rgba(255,255,255,.35);
 }
 .screen__img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* 디스플레이 위에만 CRT 스캔라인 (본체에는 없음) */
+.screen::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 5;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0,0,0,0) 0 2px,
+    rgba(0,0,0,.16) 2px 4px
+  );
+}
+
 .screen--empty, .screen--coming {
-  background: repeating-linear-gradient(45deg, #0c0c0e 0 9px, #131316 9px 18px);
+  background: repeating-linear-gradient(45deg, #0c0c14 0 9px, #14141d 9px 18px);
 }
 .screen__text {
   font-family: var(--pixel); font-size: 14px;
-  color: var(--accent2); text-shadow: 2px 2px 0 #000;
+  color: var(--crt-glow); text-shadow: 0 0 10px rgba(87,224,200,.6), 2px 2px 0 #000;
   animation: blink 1.1s steps(2) infinite;
 }
 @keyframes blink { 50% { opacity: 0; } }
 
-/* 스크린샷 캐러셀: ◀ ▶ 버튼 + 카운터 + 도트 (screen 위에 오버레이) */
+/* 스크린샷 캐러셀 */
 .screen__nav {
-  position: absolute; top: 50%; transform: translateY(-50%);
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 6;
   width: 34px; height: 46px; padding: 0; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   border: 2px solid #000; background: rgba(0,0,0,.55);
-  color: var(--accent); font-family: var(--pixel); font-size: 11px;
-  box-shadow: inset 0 0 0 1px rgba(54,241,205,.3);
+  color: var(--crt-glow); font-family: var(--pixel); font-size: 11px;
+  box-shadow: inset 0 0 0 1px rgba(87,224,200,.3);
 }
-.screen__nav:hover { background: var(--accent); color: #05040f; }
+.screen__nav:hover { background: var(--ps-blue); color: #06060c; }
 .screen__nav:active { transform: translateY(-50%) scale(.94); }
 .screen__nav--prev { left: 8px; }
 .screen__nav--next { right: 8px; }
 
 .screen__counter {
-  position: absolute; top: 8px; right: 10px;
-  font-family: var(--pixel); font-size: 8px; color: var(--ink);
+  position: absolute; top: 8px; right: 10px; z-index: 6;
+  font-family: var(--pixel); font-size: 8px; color: #eee;
   background: rgba(0,0,0,.6); padding: 4px 6px; border: 1px solid #000;
 }
 
 .screen__dots {
-  position: absolute; left: 0; right: 0; bottom: 9px;
+  position: absolute; left: 0; right: 0; bottom: 9px; z-index: 6;
   display: flex; gap: 7px; justify-content: center;
 }
 .screen__dot {
@@ -167,42 +206,121 @@ img { image-rendering: pixelated; }
   background: rgba(255,255,255,.3); box-shadow: 0 0 0 1px #000;
 }
 .screen__dot.is-on {
-  background: var(--accent);
-  box-shadow: 0 0 0 1px #000, 0 0 8px rgba(54,241,205,.6);
+  background: var(--crt-glow);
+  box-shadow: 0 0 0 1px #000, 0 0 8px rgba(87,224,200,.6);
 }
 
 .detail__title {
   font-family: var(--pixel); font-size: 15px; line-height: 1.5;
-  color: var(--ink); text-shadow: 2px 2px 0 #000;
+  color: var(--ink); text-shadow: 0 1px 0 rgba(255,255,255,.5);
   margin: 16px 0 10px;
 }
 .detail__meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+
+/* 태그 = PS 버튼 컬러 칩 */
 .tag {
   font-family: var(--pixel); font-size: 8px; letter-spacing: .5px;
-  color: #05040f; background: var(--accent);
-  padding: 6px 8px; border-radius: 2px; box-shadow: 2px 2px 0 #000;
+  color: #fff; background: var(--ps-blue);
+  padding: 6px 8px; border-radius: 3px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.4), 0 1px 2px rgba(0,0,0,.3);
 }
-.tag--dim { background: var(--dim); color: #0a081c; }
+.tag--dim { background: var(--plastic-deep); color: #fff; }
 .tag--wip {
-  background: var(--accent2); color: #190007;
-  animation: blink 1.4s steps(2) infinite;  /* 개발중 강조 */
+  background: var(--ps-red); color: #fff;
+  animation: blink 1.4s steps(2) infinite;
 }
 
 .detail__desc { color: var(--ink); font-size: 21px; margin: 0 0 18px; }
 
+/* PLAY 버튼 = POWER 버튼 느낌의 둥근 그린 버튼 */
 .play-btn {
   display: inline-block; font-family: var(--pixel); font-size: 11px;
-  letter-spacing: 1px; color: #05040f; background: var(--gold);
-  padding: 12px 18px; border-radius: 3px; text-decoration: none;
-  box-shadow: 3px 3px 0 #000; transition: transform .05s ease, background-color .15s ease;
+  letter-spacing: 1px; color: #fff;
+  background: linear-gradient(180deg, #6fbe5e 0%, var(--power) 100%);
+  padding: 12px 18px; border-radius: 22px; text-decoration: none;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.5),
+    inset 0 -2px 0 rgba(0,0,0,.2),
+    0 3px 6px rgba(0,0,0,.3);
+  transition: transform .05s ease, filter .15s ease;
 }
-.play-btn:hover { background: var(--accent); }
-.play-btn:active { transform: translate(3px, 3px); box-shadow: 0 0 0 #000; }
+.play-btn:hover { filter: brightness(1.08); }
+.play-btn:active { transform: translateY(2px); box-shadow: inset 0 2px 4px rgba(0,0,0,.3); }
 
 /* ============================================================
-   우측: 타이틀 리스트(메뉴)
+   우측: 타이틀 리스트(메뉴) — 메모리카드 슬롯 느낌
    ============================================================ */
-.menu { padding: 10px; max-height: 72vh; overflow-y: auto; }
+.menu {
+  padding: 10px; max-height: 72vh; overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.menu__list { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+
+/* ---- PS1 메모리카드 슬롯 모티프 ---- */
+.memcard {
+  display: flex; align-items: center; gap: 10px;
+  margin: 2px 2px 14px; padding: 9px 11px;
+  background: linear-gradient(180deg, #b4b0a7 0%, #c2beb5 100%);
+  border: 1px solid var(--groove); border-radius: 7px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.5),
+    inset 0 -1px 0 rgba(0,0,0,.14);
+}
+.memcard__label {
+  font-family: var(--pixel); font-size: 7px; letter-spacing: 1px;
+  color: var(--engrave); text-shadow: 0 1px 0 rgba(255,255,255,.6);
+  white-space: nowrap;
+}
+.memcard__slots { display: flex; gap: 9px; margin-left: auto; }
+.memcard__slot {
+  position: relative;
+  width: 56px; height: 19px; border-radius: 2px;
+  background: linear-gradient(180deg, #26262b 0%, #17171b 100%);
+  border: 1px solid #0e0e12;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,.7);
+  display: flex; align-items: center; justify-content: flex-end;
+  padding-right: 5px;
+}
+.memcard__slot b {
+  font-family: var(--pixel); font-size: 7px; color: #cbc7be;
+  position: relative; z-index: 1;
+}
+/* 금색 핀 컨택트 */
+.memcard__pins {
+  position: absolute; left: 4px; top: 50%; transform: translateY(-50%);
+  width: 34px; height: 11px; border-radius: 1px;
+  background: repeating-linear-gradient(90deg,
+    #e3bd64 0 2px, #94762f 2px 4px);
+  box-shadow: inset 0 0 2px rgba(0,0,0,.55), 0 0 3px rgba(227,189,100,.35);
+}
+
+/* ---- PS1 컨트롤러 포트 모티프 (리스트 하단 고정) ---- */
+.ports {
+  flex: 0 0 auto;
+  display: flex; align-items: center; gap: 10px;
+  margin: 14px 2px 2px; padding: 9px 11px;
+  background: linear-gradient(180deg, #b4b0a7 0%, #c2beb5 100%);
+  border: 1px solid var(--groove); border-radius: 7px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.5),
+    inset 0 -1px 0 rgba(0,0,0,.14);
+}
+.ports__row { display: flex; gap: 9px; margin-left: auto; }
+.port {
+  position: relative;
+  width: 84px; height: 23px;
+  background: linear-gradient(180deg, #232328 0%, #141418 100%);
+  border: 1px solid #0e0e12; border-radius: 4px 4px 8px 8px;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,.7);
+}
+/* 포트 안쪽 입구(키 형상) */
+.port::before {
+  content: ""; position: absolute; inset: 4px 7px;
+  background: linear-gradient(180deg, #0a0a0d 0%, #000 100%);
+  border-radius: 2px 2px 6px 6px;
+  box-shadow: inset 0 0 5px rgba(0,0,0,.9);
+}
+
 .menu__list { list-style: none; margin: 0; padding: 0; }
 .menu__item { margin: 0; }
 
@@ -210,36 +328,95 @@ img { image-rendering: pixelated; }
   width: 100%; display: flex; align-items: center; gap: 10px;
   background: none; border: none; cursor: pointer; text-align: left;
   font-family: var(--pixel); font-size: 11px; line-height: 1.5;
-  color: var(--dim); padding: 13px 10px;
-  border-bottom: 1px dashed rgba(255,255,255,.08);
+  color: var(--engrave); padding: 13px 10px;
+  border-bottom: 1px solid rgba(0,0,0,.10);
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
 }
-.menu__arrow { opacity: 0; color: var(--accent); }
-.menu__num { color: rgba(255,255,255,.32); }
+.menu__arrow { opacity: 0; color: var(--ps-blue); }
+.menu__num { color: var(--dim); }
 .menu__logo {
   width: 22px; height: 22px; flex-shrink: 0; overflow: hidden;
   display: inline-flex; align-items: center; justify-content: center;
-  background: #000; border: 1px solid var(--edge);
+  background: #e6e2d9; border: 1px solid var(--groove); border-radius: 3px;
 }
 .menu__logo img { width: 100%; height: 100%; object-fit: contain; display: block; }
 .menu__name { flex: 1 1 auto; }
 .menu__btn:hover { color: var(--ink); }
 
 .menu__btn.is-selected {
-  color: var(--accent);
-  background: linear-gradient(90deg, rgba(54,241,205,.16), transparent);
-  text-shadow: 0 0 8px rgba(54,241,205,.5);
+  color: #fff;
+  background: linear-gradient(90deg, var(--ps-blue), #3d86bd);
+  border-radius: 5px;
+  text-shadow: 0 1px 1px rgba(0,0,0,.3);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 1px 3px rgba(0,0,0,.25);
 }
+.menu__btn.is-selected .menu__num { color: rgba(255,255,255,.85); }
 .menu__btn.is-selected .menu__arrow {
-  opacity: 1; animation: blink 1s steps(2) infinite;
+  opacity: 1; color: #fff; animation: blink 1s steps(2) infinite;
 }
 .menu__empty {
   font-family: var(--pixel); font-size: 10px; color: var(--dim); padding: 18px;
 }
 
 /* ============================================================
+   하단 상태바 (POWER LED + PS 페이스 버튼)
+   ============================================================ */
+.arcade__foot {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  margin-top: 18px; padding-top: 14px;
+  border-top: 1px solid rgba(0,0,0,.10);
+  box-shadow: 0 -1px 0 rgba(255,255,255,.45);
+}
+.foot-spacer { flex: 1 1 auto; }
+.foot-label {
+  font-family: var(--pixel); font-size: 8px; letter-spacing: 1px;
+  color: var(--engrave); text-shadow: 0 1px 0 rgba(255,255,255,.6);
+}
+.foot-label--mute { color: var(--dim); }
+
+/* POWER / OPEN / RESET — 콘솔 상단 버튼 칩 */
+.ctrlbtn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--pixel); font-size: 8px; letter-spacing: 1px;
+  padding: 7px 11px; border-radius: 16px;
+  background: linear-gradient(180deg, #cdc9c0 0%, #b3afa6 100%);
+  border: 1px solid var(--groove);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.6),
+    inset 0 -2px 0 rgba(0,0,0,.16),
+    0 1px 2px rgba(0,0,0,.18);
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+.ctrlbtn--power { color: var(--power); }
+.ctrlbtn--open  { color: var(--ps-blue); }
+.ctrlbtn--reset { color: var(--dim); }
+
+/* 점멸하는 전원 LED */
+.led {
+  width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0;
+  background: radial-gradient(circle at 35% 30%, #c4ffb0, var(--power) 60%, #2f7a25);
+  box-shadow: 0 0 7px rgba(95,174,78,.9), inset 0 0 2px rgba(255,255,255,.7);
+  animation: led-pulse 2.6s ease-in-out infinite;
+}
+@keyframes led-pulse { 0%,100% { opacity: 1; } 50% { opacity: .4; } }
+
+/* △ ○ ✕ □ 페이스 버튼 글리프 */
+.ps-shapes { display: inline-flex; gap: 9px; align-items: center; }
+.ps-shape {
+  font-family: var(--term); font-size: 20px; line-height: 1;
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+  transition: transform .12s ease;
+}
+.ps-shapes:hover .ps-shape { transform: translateY(-1px); }
+.ps-tri { color: var(--ps-green); }
+.ps-cir { color: var(--ps-red); }
+.ps-x   { color: var(--ps-blue); }
+.ps-sq  { color: var(--ps-pink); }
+
+/* ============================================================
    포커스 / 모션 / 반응형
    ============================================================ */
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--ps-blue); outline-offset: 2px; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -247,10 +424,14 @@ img { image-rendering: pixelated; }
 
 @media (max-width: 720px) {
   body { font-size: 18px; padding: 12px; }
-  .arcade { padding: 16px; border-radius: 12px; }
-  .arcade__grid { grid-template-columns: 1fr; margin-top: 40px; }  /* 상세(위) → 리스트(아래) 스택 */
+  .arcade { padding: 16px; border-radius: 14px; }
+  .arcade::after { display: none; }
+  .arcade__grid { grid-template-columns: 1fr; margin-top: 28px; }
   .menu { max-height: none; }
   .arcade__title { font-size: 13px; }
   .detail__title { font-size: 13px; }
   .detail__desc { font-size: 19px; }
+  .memcard__slot { width: 44px; }
+  .memcard__pins { width: 26px; }
+  .port { width: 66px; }
 }

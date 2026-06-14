@@ -220,19 +220,24 @@
 
     var titleRow = el("div", "card__title-row");
     titleRow.appendChild(el("h2", "card__name", app.name || "Untitled"));
-    if (app.platform) {
-      titleRow.appendChild(el("span", "pill pill--platform", app.platform));
-    }
-    if (app.category) {
-      titleRow.appendChild(el("span", "pill", app.category));
+    // 라이브 앱은 제목 오른쪽에 초록색 점만 표시
+    if (!app.internal && (app.status || "live") === "live") {
+      titleRow.appendChild(el("span", "status__dot"));
     }
     body.appendChild(titleRow);
+
+    // 태그(플랫폼·카테고리)는 항상 제목 아래 한 줄로 모음
+    if (app.platform || app.category) {
+      var tags = el("div", "card__tags");
+      if (app.platform) tags.appendChild(el("span", "pill pill--platform", app.platform));
+      if (app.category) tags.appendChild(el("span", "pill", app.category));
+      body.appendChild(tags);
+    }
 
     if (app.description) {
       body.appendChild(el("p", "card__desc", app.description));
     }
 
-    if (!app.internal) body.appendChild(buildStatus(app));  // 내부 페이지 카드는 상태 배지 생략
     main.appendChild(body);
 
     // 수익 배지

@@ -81,7 +81,9 @@ a { color: inherit; }
 .container {
   max-width: var(--maxw);
   margin: 0 auto;
-  padding: 40px 20px 64px;
+  padding: 0 20px;
+  height: 100vh;
+  overflow: hidden;   /* 페이지 자체 스크롤 차단 → 오른쪽 카드 열만 내부 스크롤 */
 }
 
 /* 계측기 리드아웃: 모든 수치 공통 */
@@ -96,30 +98,45 @@ a { color: inherit; }
    ============================================================ */
 .layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;  /* 좌우 절반 — 프로필은 왼쪽 열 중앙, 앱은 오른쪽 열 중앙 */
+  grid-template-columns: 1fr 2fr;  /* 프로필 1/3 : 앱 카드 2/3 */
   gap: 40px;
-  align-items: center;             /* 앱 컬럼을 프로필과 세로로 나란히 (천장에 붙지 않게) */
+  height: 100vh;
+  align-items: stretch;            /* 두 컬럼 모두 화면 높이를 채움 */
 }
 
-/* 앱 컬럼: 오른쪽 열 안에서 중앙 정렬, 카드 폭은 축소 상태 유지 */
+/* 앱 컬럼: 오른쪽 열만 내부 스크롤 (왼쪽 프로필은 고정) */
 .apps {
   width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
+  height: 100vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* 카드 묶음을 세로 중앙에 → 프로필(로봇) 높이와 균형. 카드가 많아 넘치면 safe가 위부터 정렬해 잘림 방지 */
+  display: flex;
+  flex-direction: column;
+  justify-content: safe center;
+  padding: 32px 10px 32px 0;
+  /* 스크롤 가능 힌트: 위/아래 페이드 */
+  -webkit-mask-image: linear-gradient(to bottom,
+    transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%);
+  mask-image: linear-gradient(to bottom,
+    transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
 }
+.apps::-webkit-scrollbar { width: 6px; }
+.apps::-webkit-scrollbar-track { background: transparent; }
+.apps::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
+.apps::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
 /* ============================================================
    헤더 (프로필 컬럼) — 화면 높이를 채우는 사이드바, 콘텐츠는 정중앙
    ============================================================ */
 .header {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  margin-top: -40px;        /* 컨테이너 상단 패딩 상쇄 → 정확히 화면 중앙 */
+  height: 100vh;            /* 왼쪽 열은 화면에 고정 (스크롤 영향 없음) */
   display: flex;
   flex-direction: column;
-  justify-content: center;  /* 세로 센터 */
-  align-items: center;      /* 가로 센터 */
+  justify-content: center;  /* 세로 중앙 */
+  align-items: center;      /* 가로 중앙 */
 }
 .header > * { width: 100%; }
 
@@ -261,23 +278,11 @@ a { color: inherit; }
 .app-list {
   list-style: none;
   margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  /* 약 4개 카드 높이까지만 보이고, 나머지는 내부 스크롤. 값만 조절하면 보이는 개수 변경 */
-  max-height: 920px;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  /* 위/아래 여백을 둬서 카드가 항상 여백 안쪽에 오게 함 (페이드가 카드를 가리지 않음) */
-  padding: 24px 8px 24px 0;
-  /* 페이드는 빈 여백(24px)에만 걸리고, 카드(시작 24px)는 또렷하게 — 부드러운 스크롤 암시 */
-  -webkit-mask-image: linear-gradient(to bottom,
-    transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
-  mask-image: linear-gradient(to bottom,
-    transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
-  /* Firefox: 얇고 톤에 맞는 스크롤바 */
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));  /* 2열 — minmax(0,…)로 칸이 콘텐츠보다 좁아도 줄어듦(가로 넘침 방지) */
+  align-content: start;
+  gap: 16px;
+  padding: 0;
 }
 /* WebKit(Chrome/Safari): 얇고 투명한 트랙 + 둥근 썸 */
 .app-list::-webkit-scrollbar { width: 6px; }
@@ -293,6 +298,9 @@ a { color: inherit; }
   flex-direction: column;
   gap: 11px;
   padding: 13px;
+  min-width: 0;          /* 그리드 칸 안에서 콘텐츠가 칸을 넘기지 않도록 축소 허용 */
+  height: 230px;         /* 모든 카드 동일한 고정 높이 */
+  overflow: hidden;      /* 내용이 넘치면 깔끔히 잘라냄 */
   background: var(--glass);
   -webkit-backdrop-filter: blur(16px) saturate(1.3);
   backdrop-filter: blur(16px) saturate(1.3);
@@ -309,6 +317,7 @@ a { color: inherit; }
   display: flex;
   align-items: center;
   gap: 13px;
+  min-width: 0;  /* 자식(본문)이 칸을 넘기지 않도록 */
 }
 .card:hover {
   transform: translateY(-2px);
@@ -333,14 +342,21 @@ a { color: inherit; }
   display: flex;
   align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 .card__name {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 14px;
+  font-size: 15px;
   margin: 0;
+}
+
+/* 태그(플랫폼·카테고리) — 항상 제목 바로 아래 한 줄 */
+.card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
 }
 
 .pill {
@@ -362,8 +378,16 @@ a { color: inherit; }
 
 .card__desc {
   font-size: 12px;
+  line-height: 1.45;
   color: var(--text-muted);
   margin: 0 0 6px;
+  /* 항상 2줄 높이를 차지 — 1줄 설명도 2줄짜리와 같은 공간 */
+  min-height: calc(1.45em * 2);
+  /* 2줄까지만 표시하고 넘치면 … 으로 마무리 */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .status {
@@ -402,8 +426,10 @@ a { color: inherit; }
 /* 월별 수익 그래프 (Chart.js 캔버스) */
 .card__chart {
   position: relative;
-  height: 88px;
+  flex: 1 1 auto;     /* 카드의 남은 세로 공간을 차트가 모두 채움 (빈 가운데 제거) */
+  min-height: 0;
   padding-top: 10px;
+  margin-top: 4px;
   border-top: 1px solid var(--border);
 }
 .card__chart canvas { display: block; }
@@ -447,22 +473,33 @@ a { color: inherit; }
    ============================================================ */
 /* 태블릿 이하: 2열 → 1열 스택, 프로필 가운데 정렬로 복귀 */
 @media (max-width: 768px) {
+  /* 모바일: 뷰포트 잠금 해제 → 일반 페이지 스크롤 */
+  .container {
+    height: auto;
+    overflow: visible;
+    padding: 40px 20px 56px;
+  }
   .layout {
     grid-template-columns: 1fr;
+    height: auto;
     gap: 28px;
   }
   .header {
-    position: static;
     height: auto;
     margin: 0 auto;
     max-width: 440px;
   }
-  .apps { max-width: 560px; margin: 0 auto; width: 100%; }
-  /* 모바일: 내부 스크롤 대신 페이지 스크롤로 전체 카드 노출 (마스크/스크롤바 해제) */
-  .app-list {
-    max-height: none; overflow: visible; padding-right: 0;
+  .apps {
+    height: auto;
+    max-width: 560px;
+    margin: 0 auto;
+    width: 100%;
+    overflow: visible;
+    padding: 0;
     -webkit-mask-image: none; mask-image: none;
   }
+  .app-list { grid-template-columns: 1fr; }  /* 1열로 복귀 */
+  .card { height: auto; }                    /* 모바일 1열에선 고정 높이 해제 */
 }
 
 @media (max-width: 480px) {
