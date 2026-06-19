@@ -120,7 +120,8 @@
   function countUp(node, target) {
     var reduce = window.matchMedia &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce || !(target > 0)) {
+    // $1 미만 합계는 카운트업 반올림($0.02 → $0)을 피하려고 즉시 정확히 표시.
+    if (reduce || !(target > 0) || target < 1) {
       node.textContent = formatMrr(target) + "/mo";
       return;
     }

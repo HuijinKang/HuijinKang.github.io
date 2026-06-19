@@ -45,13 +45,13 @@ const apps = [
     ]
   },
   {
-    name: "BB Ballistics Calculator",
+    name: "Airsoft Ballistics Calculator",
     logo: "./assets/bb-ballistics.png",
     url: "https://play.google.com/store/apps/details?id=io.hj.bb_ballistics_calculator",
     description: "Airsoft BB velocity, energy & range calculator with realistic physics.",
     category: "Tools",  // 카드에 작은 태그로 표시
     platform: "Android", // "Android" | "Web" — 플랫폼 구분 태그
-    mrr: 0,             // 월 수익(숫자). 총합 자동 계산에 사용
+    mrr: 0.02,          // 월 수익(숫자). 총합 자동 계산에 사용
     downloads: 100,     // Play Store "100+" → 100 저장, UI에서 "100+"로 표기
     status: "live",     // "live" | "acquired" | "discontinued"
     // soldFor: 35000,  // status가 "acquired"일 때만. 매각액
@@ -62,7 +62,7 @@ const apps = [
       { month: "2026-03", value: 0 },
       { month: "2026-04", value: 0 },
       { month: "2026-05", value: 0 },
-      { month: "2026-06", value: 0 }
+      { month: "2026-06", value: 0.02 }
     ]
   },
   {
